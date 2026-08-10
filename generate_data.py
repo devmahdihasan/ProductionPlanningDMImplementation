@@ -1,34 +1,87 @@
-import numpy as np
 import pandas as pd
+import numpy as np
+from pathlib import Path
 
-# Make results reproducible
-np.random.seed(42)
 
-# Number of production records
-n = 300
+# ============================================================
+# CONFIGURATION
+# ============================================================
 
-# Generate production-related data
-demand = np.random.randint(400, 1501, n)
-inventory = np.random.randint(30, 301, n)
-workers = np.random.randint(10, 51, n)
-working_hours = np.round(np.random.uniform(6, 12, n), 1)
-raw_material = np.random.randint(500, 1801, n)
+DATA_DIR = Path("data")
+DATA_DIR.mkdir(exist_ok=True)
 
-# Generate production quantity
-production = (
-    0.55 * demand
-    - 0.20 * inventory
-    + 5 * workers
-    + 20 * working_hours
-    + 0.25 * raw_material
-    + np.random.normal(0, 25, n)
+NUMBER_OF_RECORDS = 400
+
+
+# ============================================================
+# FIND NEXT DATASET NUMBER
+# ============================================================
+
+existing_files = list(DATA_DIR.glob("production_data_*.csv"))
+
+numbers = []
+
+for file in existing_files:
+    try:
+        number = int(file.stem.split("_")[-1])
+        numbers.append(number)
+    except ValueError:
+        pass
+
+next_number = max(numbers, default=0) + 1
+
+output_file = DATA_DIR / f"production_data_{next_number:03d}.csv"
+
+
+# ============================================================
+# GENERATE DATA
+# ============================================================
+
+np.random.seed(42 + next_number)
+
+demand = np.random.randint(500, 2000, NUMBER_OF_RECORDS)
+
+inventory = np.random.randint(50, 500, NUMBER_OF_RECORDS)
+
+workers = np.random.randint(10, 80, NUMBER_OF_RECORDS)
+
+working_hours = np.round(
+    np.random.uniform(6, 12, NUMBER_OF_RECORDS),
+    1
 )
 
-# Make sure production is positive and integer
-production = np.maximum(production, 50).astype(int)
+raw_material = np.random.randint(
+    500,
+    2500,
+    NUMBER_OF_RECORDS
+)
 
-# Create DataFrame
-data = pd.DataFrame({
+
+# ============================================================
+# GENERATE PRODUCTION TARGET
+# ============================================================
+
+production = (
+    0.75 * demand
+    + 0.15 * inventory
+    + 8 * workers
+    + 35 * working_hours
+    + 0.20 * raw_material
+    + np.random.normal(0, 20, NUMBER_OF_RECORDS)
+)
+
+
+production = np.maximum(
+    production.round(),
+    0
+)
+
+
+# ============================================================
+# CREATE DATAFRAME
+# ============================================================
+
+df = pd.DataFrame({
     "Demand": demand,
     "Inventory": inventory,
     "Workers": workers,
@@ -37,10 +90,34 @@ data = pd.DataFrame({
     "Production": production
 })
 
-# Save dataset
-data.to_csv("data/production_data.csv", index=False)
 
-print("Production dataset created successfully!")
-print(f"Number of records: {len(data)}")
-print("\nFirst 10 records:")
-print(data.head(10))
+# ============================================================
+# SAVE DATASET
+# ============================================================
+
+df.to_csv(
+    output_file,
+    index=False
+)
+
+
+# ============================================================
+# DISPLAY INFORMATION
+# ============================================================
+
+print("=" * 60)
+print("PRODUCTION DATASET GENERATED")
+print("=" * 60)
+
+print(f"Records : {len(df)}")
+print(f"Columns : {len(df.columns)}")
+print(f"Saved to: {output_file}")
+
+print("\nColumns:")
+for column in df.columns:
+    print(f" - {column}")
+
+print("\nFirst 5 records:")
+print(df.head())
+
+print("\nDataset generation completed successfully!")
