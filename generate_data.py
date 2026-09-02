@@ -7,8 +7,8 @@ from pathlib import Path
 # CONFIGURATION
 # ============================================================
 
-DATA_DIR = Path("data")
-DATA_DIR.mkdir(exist_ok=True)
+DATA_DIR = Path("data") / "synthetic"
+DATA_DIR.mkdir(parents=True, exist_ok=True)
 
 NUMBER_OF_RECORDS = 400
 
@@ -39,14 +39,30 @@ output_file = DATA_DIR / f"production_data_{next_number:03d}.csv"
 
 np.random.seed(42 + next_number)
 
-demand = np.random.randint(500, 2000, NUMBER_OF_RECORDS)
+demand = np.random.randint(
+    500,
+    2000,
+    NUMBER_OF_RECORDS
+)
 
-inventory = np.random.randint(50, 500, NUMBER_OF_RECORDS)
+inventory = np.random.randint(
+    50,
+    500,
+    NUMBER_OF_RECORDS
+)
 
-workers = np.random.randint(10, 80, NUMBER_OF_RECORDS)
+workers = np.random.randint(
+    10,
+    80,
+    NUMBER_OF_RECORDS
+)
 
 working_hours = np.round(
-    np.random.uniform(6, 12, NUMBER_OF_RECORDS),
+    np.random.uniform(
+        6,
+        12,
+        NUMBER_OF_RECORDS
+    ),
     1
 )
 
@@ -67,9 +83,12 @@ production = (
     + 8 * workers
     + 35 * working_hours
     + 0.20 * raw_material
-    + np.random.normal(0, 20, NUMBER_OF_RECORDS)
+    + np.random.normal(
+        0,
+        20,
+        NUMBER_OF_RECORDS
+    )
 )
-
 
 production = np.maximum(
     production.round(),
@@ -106,7 +125,7 @@ df.to_csv(
 # ============================================================
 
 print("=" * 60)
-print("PRODUCTION DATASET GENERATED")
+print("SYNTHETIC PRODUCTION DATASET GENERATED")
 print("=" * 60)
 
 print(f"Records : {len(df)}")
@@ -114,10 +133,11 @@ print(f"Columns : {len(df.columns)}")
 print(f"Saved to: {output_file}")
 
 print("\nColumns:")
+
 for column in df.columns:
     print(f" - {column}")
 
 print("\nFirst 5 records:")
 print(df.head())
 
-print("\nDataset generation completed successfully!")
+print("\nSynthetic dataset generation completed successfully!")
