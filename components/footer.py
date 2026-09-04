@@ -5,5 +5,5 @@ def render_footer():
     st.divider()
 
     st.caption(
-        "Data Mining Lab Project • Production Planning"
+        "Production Planning • Built by devmahdihasan · NextGrid Digital"
     )
