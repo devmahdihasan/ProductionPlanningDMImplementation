@@ -59,6 +59,13 @@ The project also supports the externally sourced:
 
 **Multi-site Production-Distribution Prediction Dataset**
 
+**Dataset Source:** [Multi-site Production-Distribution Prediction — Kaggle](https://www.kaggle.com/datasets/kammounmohamedali/multi-site-production-distribution-prediction)
+
+**Dataset Author:** KAMMOUN MOHAMED ALI  
+**Dataset License:** GPL 2
+
+> This dataset is an externally sourced dataset and is not created or owned by this project.
+
 After preprocessing, the dataset contains **516 usable records** with production-planning variables including:
 
 - Demand across multiple sites
