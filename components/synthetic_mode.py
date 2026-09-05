@@ -41,7 +41,6 @@ def render_synthetic_mode():
 
         return
 
-
     model = joblib.load(
         model_path
     )
@@ -58,64 +57,71 @@ def render_synthetic_mode():
         results["R2"].idxmax()
     ]
 
-
     # ========================================================
-    # DATASET INFORMATION
+    # 01 / DATASET
     # ========================================================
 
-    st.subheader(
-        "📁 Dataset Information"
+    st.markdown(
+        """
+        <div class="workflow-section">
+            <span class="workflow-number">01 /</span>
+            <span class="workflow-title">DATASET</span>
+        </div>
+        """,
+        unsafe_allow_html=True,
     )
 
-    st.info(
-        "This model was trained using a synthetically generated "
-        "production-planning dataset created for academic demonstration."
+    st.write(
+        "Synthetic production-planning dataset generated specifically "
+        "for demonstrating the regression workflow."
     )
 
-
-    col1, col2 = st.columns(2)
+    col1, col2, col3 = st.columns(3)
 
     with col1:
         st.metric(
-            "Dataset Source",
+            "Source",
             "Synthetic",
         )
 
     with col2:
         st.metric(
-            "Records Used",
+            "Records",
             metadata["records"],
         )
 
+    with col3:
+        st.metric(
+            "Target",
+            metadata["target"],
+        )
 
     st.caption(
         f"Dataset: {metadata['dataset']}"
     )
 
-    st.caption(
-        f"Prediction target: {metadata['target']}"
-    )
-
     st.divider()
 
-
     # ========================================================
-    # MODEL PERFORMANCE
+    # 02 / MODEL COMPARISON
     # ========================================================
 
-    st.subheader(
-        "📊 Model Performance"
+    st.markdown(
+        """
+        <div class="workflow-section">
+            <span class="workflow-number">02 /</span>
+            <span class="workflow-title">MODEL COMPARISON</span>
+        </div>
+        """,
+        unsafe_allow_html=True,
     )
 
     st.write(
         "Three regression models were trained and evaluated "
-        "using the synthetic dataset."
+        "using the same synthetic dataset."
     )
 
-
-    display_results = (
-        results.copy()
-    )
+    display_results = results.copy()
 
     display_results["MAE"] = (
         display_results["MAE"]
@@ -132,35 +138,33 @@ def render_synthetic_mode():
         .round(4)
     )
 
-
     st.dataframe(
         display_results,
         use_container_width=True,
         hide_index=True,
     )
 
-
-    # ========================================================
-    # BEST MODEL
-    # ========================================================
-
-    st.subheader(
-        "🏆 Best Performing Model"
+    st.markdown(
+        """
+        <div class="workflow-section">
+            <span class="workflow-number">BEST /</span>
+            <span class="workflow-title">SELECTED MODEL</span>
+        </div>
+        """,
+        unsafe_allow_html=True,
     )
-
 
     col1, col2, col3 = st.columns(3)
 
-
     with col1:
         st.metric(
-            "Best Model",
+            "Model",
             best_model_row["Model"],
         )
 
     with col2:
         st.metric(
-            "R² Score",
+            "R²",
             f"{best_model_row['R2']:.4f}",
         )
 
@@ -170,70 +174,76 @@ def render_synthetic_mode():
             f"{best_model_row['MAE']:.2f}",
         )
 
-
-    st.info(
-        f"**{best_model_row['Model']}** achieved the highest "
-        f"R² score for the synthetic dataset."
+    st.caption(
+        "The model with the highest R² score is selected "
+        "for prediction."
     )
 
     st.divider()
 
-
     # ========================================================
-    # PRODUCTION INPUTS
+    # 03 / PRODUCTION INPUTS
     # ========================================================
 
-    st.subheader(
-        "📝 Production Information"
+    st.markdown(
+        """
+        <div class="workflow-section">
+            <span class="workflow-number">03 /</span>
+            <span class="workflow-title">PRODUCTION INPUTS</span>
+        </div>
+        """,
+        unsafe_allow_html=True,
     )
 
     st.write(
-        "Enter production-planning information "
-        "to predict the expected production quantity."
+        "Enter production-planning values to estimate "
+        "the expected production quantity."
     )
 
+    col1, col2 = st.columns(2)
 
-    demand = st.number_input(
-        "Expected Demand",
-        min_value=0,
-        value=1000,
-        step=50,
-        key="synthetic_demand",
-    )
+    with col1:
+        demand = st.number_input(
+            "Expected Demand",
+            min_value=0,
+            value=1000,
+            step=50,
+            key="synthetic_demand",
+        )
 
-    inventory = st.number_input(
-        "Current Inventory",
-        min_value=0,
-        value=100,
-        step=10,
-        key="synthetic_inventory",
-    )
+        workers = st.number_input(
+            "Number of Workers",
+            min_value=1,
+            value=30,
+            step=1,
+            key="synthetic_workers",
+        )
 
-    workers = st.number_input(
-        "Number of Workers",
-        min_value=1,
-        value=30,
-        step=1,
-        key="synthetic_workers",
-    )
+        raw_material = st.number_input(
+            "Available Raw Material",
+            min_value=0,
+            value=1100,
+            step=50,
+            key="synthetic_raw_material",
+        )
 
-    working_hours = st.number_input(
-        "Working Hours per Day",
-        min_value=1.0,
-        max_value=24.0,
-        value=9.0,
-        step=0.5,
-        key="synthetic_working_hours",
-    )
+    with col2:
+        inventory = st.number_input(
+            "Current Inventory",
+            min_value=0,
+            value=100,
+            step=10,
+            key="synthetic_inventory",
+        )
 
-    raw_material = st.number_input(
-        "Available Raw Material",
-        min_value=0,
-        value=1100,
-        step=50,
-        key="synthetic_raw_material",
-    )
-
+        working_hours = st.number_input(
+            "Working Hours per Day",
+            min_value=1.0,
+            max_value=24.0,
+            value=9.0,
+            step=0.5,
+            key="synthetic_working_hours",
+        )
 
     input_data = pd.DataFrame(
         {
@@ -245,18 +255,26 @@ def render_synthetic_mode():
         }
     )
 
+    # ========================================================
+    # 04 / PREDICTION
+    # ========================================================
 
-    # ========================================================
-    # PREDICTION
-    # ========================================================
+    st.markdown(
+        """
+        <div class="workflow-section">
+            <span class="workflow-number">04 /</span>
+            <span class="workflow-title">PREDICTION</span>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
     if st.button(
-        "🔮 Predict Production",
+        "Generate production prediction",
         use_container_width=True,
         type="primary",
         key="synthetic_predict_button",
     ):
-
         prediction = model.predict(
             input_data
         )[0]
@@ -270,27 +288,12 @@ def render_synthetic_mode():
             prediction
         )
 
-
-        st.divider()
-
-        st.subheader(
-            "🎯 Prediction Result"
+        st.metric(
+            "Predicted Production",
+            f"{prediction:,} units",
         )
-
-
-        st.success(
-            f"🏭 **Predicted Production: "
-            f"{prediction:,} units**"
-        )
-
-
-        st.info(
-            "The prediction was generated using "
-            f"the trained **{best_model_row['Model']}** model."
-        )
-
 
         st.caption(
-            "This prediction is based on the synthetic "
-            "production-planning model."
+            f"Prediction generated using {best_model_row['Model']} "
+            "on the synthetic production-planning model."
         )

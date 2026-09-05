@@ -41,7 +41,6 @@ def render_external_mode():
 
         return
 
-
     model = joblib.load(
         model_path
     )
@@ -58,62 +57,69 @@ def render_external_mode():
         results["R2"].idxmax()
     ]
 
-
     # ========================================================
-    # DATASET INFORMATION
+    # 01 / DATASET
     # ========================================================
 
-    st.subheader(
-        "📁 Dataset Information"
+    st.markdown(
+        """
+        <div class="workflow-section">
+            <span class="workflow-number">01 /</span>
+            <span class="workflow-title">DATASET</span>
+        </div>
+        """,
+        unsafe_allow_html=True,
     )
 
-    st.info(
-        "This model was trained using an externally sourced "
-        "multi-site production-distribution planning dataset."
+    st.write(
+        "Externally sourced multi-site production-distribution "
+        "planning dataset used for Site 1 production prediction."
     )
 
-
-    col1, col2 = st.columns(2)
-
+    col1, col2, col3 = st.columns(3)
 
     with col1:
         st.metric(
-            "Dataset Source",
+            "Source",
             "External",
         )
 
-
     with col2:
         st.metric(
-            "Records Used",
+            "Records",
             metadata["records"],
         )
 
+    with col3:
+        st.metric(
+            "Target",
+            metadata["target"],
+        )
 
     st.caption(
         f"Dataset: {metadata['dataset']}"
     )
 
-    st.caption(
-        f"Prediction target: {metadata['target']}"
-    )
-
     st.divider()
 
-
     # ========================================================
-    # MODEL PERFORMANCE
+    # 02 / MODEL COMPARISON
     # ========================================================
 
-    st.subheader(
-        "📊 Model Performance"
+    st.markdown(
+        """
+        <div class="workflow-section">
+            <span class="workflow-number">02 /</span>
+            <span class="workflow-title">MODEL COMPARISON</span>
+        </div>
+        """,
+        unsafe_allow_html=True,
     )
 
     st.write(
         "Three regression models were trained and evaluated "
-        "using the external production-planning dataset."
+        "using the same external dataset."
     )
-
 
     display_results = results.copy()
 
@@ -132,39 +138,35 @@ def render_external_mode():
         .round(4)
     )
 
-
     st.dataframe(
         display_results,
         use_container_width=True,
         hide_index=True,
     )
 
-
-    # ========================================================
-    # BEST MODEL
-    # ========================================================
-
-    st.subheader(
-        "🏆 Best Performing Model"
+    st.markdown(
+        """
+        <div class="workflow-section">
+            <span class="workflow-number">BEST /</span>
+            <span class="workflow-title">SELECTED MODEL</span>
+        </div>
+        """,
+        unsafe_allow_html=True,
     )
-
 
     col1, col2, col3 = st.columns(3)
 
-
     with col1:
         st.metric(
-            "Best Model",
+            "Model",
             best_model_row["Model"],
         )
 
-
     with col2:
         st.metric(
-            "R² Score",
+            "R²",
             f"{best_model_row['R2']:.4f}",
         )
-
 
     with col3:
         st.metric(
@@ -172,49 +174,49 @@ def render_external_mode():
             f"{best_model_row['MAE']:.2f}",
         )
 
-
-    st.info(
-        f"**{best_model_row['Model']}** achieved the highest "
-        f"R² score for the external dataset."
+    st.caption(
+        "The model with the highest R² score is selected "
+        "for prediction."
     )
 
     st.divider()
 
-
     # ========================================================
-    # MULTI-SITE INPUTS
+    # 03 / PLANNING INPUTS
     # ========================================================
 
-    st.subheader(
-        "📝 Multi-site Production Information"
+    st.markdown(
+        """
+        <div class="workflow-section">
+            <span class="workflow-number">03 /</span>
+            <span class="workflow-title">PLANNING INPUTS</span>
+        </div>
+        """,
+        unsafe_allow_html=True,
     )
 
     st.write(
-        "Enter production and distribution planning values "
-        "to predict production at Site 1."
+        "Enter the multi-site production and distribution values "
+        "used to estimate production at Site 1."
     )
 
-    st.info(
-        "The default values below represent one record from the "
-        "external dataset. For that record, the actual Site 1 "
-        "production value is **168 units**."
+    st.caption(
+        "Default values represent one record from the external dataset. "
+        "Its actual Site 1 production value is 168 units."
     )
-
 
     # ========================================================
     # DEMAND & INVENTORY
     # ========================================================
 
     with st.expander(
-        "📦 Demand & Inventory",
+        "Demand & Inventory",
         expanded=True,
     ):
 
         col1, col2 = st.columns(2)
 
-
         with col1:
-
             ds1 = st.number_input(
                 "Demand — Site 1 (DS1)",
                 value=117.0,
@@ -233,9 +235,7 @@ def render_external_mode():
                 key="external_ds3",
             )
 
-
         with col2:
-
             i1 = st.number_input(
                 "Inventory — Site 1 (I1)",
                 value=168.0,
@@ -254,49 +254,41 @@ def render_external_mode():
                 key="external_i3",
             )
 
-
     # ========================================================
     # PRODUCTION CONSTRAINTS
     # ========================================================
 
     with st.expander(
-        "⚙️ Production Constraints"
+        "Production Constraints"
     ):
 
         col1, col2 = st.columns(2)
 
-
         with col1:
-
             u_min = st.number_input(
                 "Minimum Production Limit",
                 value=0.0,
                 key="external_u_min",
             )
 
-
         with col2:
-
             u_max = st.number_input(
                 "Maximum Production Limit",
                 value=300.0,
                 key="external_u_max",
             )
 
-
     # ========================================================
     # COSTS & CAPACITY
     # ========================================================
 
     with st.expander(
-        "💰 Costs & Capacity"
+        "Costs & Capacity"
     ):
 
         col1, col2 = st.columns(2)
 
-
         with col1:
-
             mc = st.number_input(
                 "Manufacturing Cost (MC123)",
                 value=1.0,
@@ -309,9 +301,7 @@ def render_external_mode():
                 key="external_shc",
             )
 
-
         with col2:
-
             sc = st.number_input(
                 "Storage Cost (SC123)",
                 value=10.0,
@@ -324,20 +314,17 @@ def render_external_mode():
                 key="external_vc",
             )
 
-
     # ========================================================
     # INTER-SITE DISTRIBUTION
     # ========================================================
 
     with st.expander(
-        "🚚 Inter-site Distribution"
+        "Inter-site Distribution"
     ):
 
         col1, col2 = st.columns(2)
 
-
         with col1:
-
             t12 = st.number_input(
                 "Site 1 → Site 2 (T12)",
                 value=0.0,
@@ -356,9 +343,7 @@ def render_external_mode():
                 key="external_t31",
             )
 
-
         with col2:
-
             t13 = st.number_input(
                 "Site 1 → Site 3 (T13)",
                 value=0.0,
@@ -377,7 +362,6 @@ def render_external_mode():
                 key="external_t32",
             )
 
-
     # ========================================================
     # INPUT DATAFRAME
     # ========================================================
@@ -387,20 +371,15 @@ def render_external_mode():
             "DS1": [ds1],
             "DS2": [ds2],
             "DS3": [ds3],
-
             "I1": [i1],
             "I2": [i2],
             "I3": [i3],
-
             "U_Min123": [u_min],
             "U_Max123": [u_max],
-
             "MC123": [mc],
             "SC123": [sc],
             "SHC123": [shc],
-
             "VC": [vc],
-
             "T12": [t12],
             "T13": [t13],
             "T21": [t21],
@@ -410,18 +389,26 @@ def render_external_mode():
         }
     )
 
+    # ========================================================
+    # 04 / PREDICTION
+    # ========================================================
 
-    # ========================================================
-    # PREDICTION
-    # ========================================================
+    st.markdown(
+        """
+        <div class="workflow-section">
+            <span class="workflow-number">04 /</span>
+            <span class="workflow-title">PREDICTION</span>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
     if st.button(
-        "🔮 Predict Production",
+        "Generate production prediction",
         use_container_width=True,
         type="primary",
         key="external_predict_button",
     ):
-
         prediction = model.predict(
             input_data
         )[0]
@@ -435,25 +422,10 @@ def render_external_mode():
             prediction
         )
 
-
-        st.divider()
-
-        st.subheader(
-            "🎯 Prediction Result"
+        st.metric(
+            "Predicted Site 1 Production",
+            f"{prediction:,} units",
         )
-
-
-        st.success(
-            f"🏭 **Predicted Production at Site 1: "
-            f"{prediction:,} units**"
-        )
-
-
-        st.info(
-            "The prediction was generated using "
-            f"the trained **{best_model_row['Model']}** model."
-        )
-
 
         actual_example = 168
 
@@ -461,20 +433,21 @@ def render_external_mode():
             prediction - actual_example
         )
 
+        col1, col2 = st.columns(2)
 
-        st.write(
-            f"Example record actual value: "
-            f"**{actual_example} units**"
-        )
+        with col1:
+            st.metric(
+                "Example Actual",
+                f"{actual_example} units",
+            )
 
-        st.write(
-            f"Prediction difference for this example: "
-            f"**{difference} units**"
-        )
-
+        with col2:
+            st.metric(
+                "Difference",
+                f"{difference} units",
+            )
 
         st.caption(
-            "This comparison applies only to the default example "
-            "record. Overall model performance should be evaluated "
-            "using MAE, RMSE, and R²."
+            f"Prediction generated using {best_model_row['Model']}. "
+            "The actual-value comparison applies only to the default example record."
         )

@@ -2,16 +2,15 @@ import streamlit as st
 
 
 def render_dataset_selector():
-    st.subheader(
-        "🗂️ Select Dataset Source"
-    )
+    st.markdown("### Choose your data source")
 
     return st.radio(
-        "Choose the dataset used for prediction:",
+        "Dataset source",
         [
             "Synthetic Dataset",
             "External Production Dataset",
             "Upload Custom CSV",
         ],
         horizontal=True,
+        label_visibility="collapsed",
     )

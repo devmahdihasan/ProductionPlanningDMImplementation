@@ -2,17 +2,31 @@ import streamlit as st
 
 
 def render_header():
-    st.title(
-        "🏭 Production Planning System"
-    )
+    with st.container(key="app_header"):
+        top_left, top_right = st.columns(
+            [5, 1],
+            vertical_alignment="center",
+        )
 
-    st.write(
-        "Data Mining Based Production Prediction"
-    )
+        with top_left:
+            st.caption(
+                "PRODUCTION PLANNING / REGRESSION TOOL"
+            )
 
-    st.caption(
-        "Compare regression models and predict production quantity "
-        "using synthetic, externally sourced, or custom CSV data."
-    )
+        with top_right:
+            st.caption("v1.0")
 
-    st.divider()
+        st.markdown(
+            """
+            <div class="hero-heading">
+                <div>Production decisions,</div>
+                <div>backed by data.</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+
+        st.write(
+            "Compare regression models and generate production predictions "
+            "from synthetic, external, or uploaded datasets."
+        )
