@@ -6,6 +6,13 @@ The system trains and compares multiple regression models, evaluates their perfo
 
 ---
 
+## 🚀 Live Demo
+
+Try the deployed application on Streamlit Community Cloud:
+
+**[Launch Production Planning System](https://planning-regression-dm.streamlit.app)**
+---
+
 ## ✨ Features
 
 - Synthetic production dataset generation
