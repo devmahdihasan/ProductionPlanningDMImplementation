@@ -19,8 +19,8 @@ def render_header():
         st.markdown(
             """
             <div class="hero-heading">
-                <div>Production decisions,</div>
-                <div>backed by data.</div>
+                <div>Production decisions</div>
+                <div>backed by data</div>
             </div>
             """,
             unsafe_allow_html=True,
@@ -28,5 +28,5 @@ def render_header():
 
         st.write(
             "Compare regression models and generate production predictions "
-            "from synthetic, external, or uploaded datasets."
+            "from synthetic, external, or uploaded datasets"
         )

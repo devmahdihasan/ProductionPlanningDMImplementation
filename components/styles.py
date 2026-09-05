@@ -133,7 +133,7 @@ def inject_global_styles():
         }
 
         div[role="radiogroup"] label:hover {
-            border-color: #f59e0b;
+            border-color: #f97316;
 
             box-shadow:
                 0 8px 20px
@@ -143,13 +143,13 @@ def inject_global_styles():
         }
 
         div[role="radiogroup"] label:has(input:checked) {
-            border-color: #f59e0b;
+            border-color: #f97316;
 
-            background: #fffaf0;
+            background: #fff7ed;
 
             box-shadow:
                 0 0 0 2px
-                rgba(245, 158, 11, 0.10);
+                rgba(249, 115, 22, 0.10);
         }
 
         div[role="radiogroup"] label p {
@@ -173,7 +173,7 @@ def inject_global_styles():
         }
 
         .workflow-number {
-            color: #f59e0b;
+            color: #f97316;
 
             font-size: 0.72rem;
             font-weight: 800;
@@ -197,7 +197,7 @@ def inject_global_styles():
             margin-top: 1.5rem;
             margin-bottom: 0.35rem;
 
-            color: #92400e;
+            color: #9a3412;
 
             font-size: 0.76rem;
             font-weight: 800;
@@ -215,9 +215,9 @@ def inject_global_styles():
 
             padding: 0.3rem 0.5rem;
 
-            background: #fffaf0;
+            background: #fff7ed;
 
-            border: 1px solid #f4c766 !important;
+            border: 1px solid #fdba74 !important;
             border-radius: 14px !important;
         }
 
@@ -229,7 +229,7 @@ def inject_global_styles():
         .st-key-feature_review_panel
         div[data-testid="stCheckbox"] label {
             font-weight: 700;
-            color: #7a4b00;
+            color: #9a3412;
         }
 
         .st-key-feature_review_panel
@@ -246,8 +246,8 @@ def inject_global_styles():
         .st-key-feature_review_panel
         div[data-testid="stCheckbox"]
         input:checked + div {
-            border-color: #f59e0b !important;
-            background-color: #f59e0b !important;
+            border-color: #f97316 !important;
+            background-color: #f97316 !important;
         }
 
 
@@ -261,10 +261,10 @@ def inject_global_styles():
 
             background: #ffffff !important;
 
-            border: 1px solid #f4c766 !important;
+            border: 1px solid #fdba74 !important;
             border-radius: 10px !important;
 
-            color: #92400e !important;
+            color: #9a3412 !important;
 
             font-size: 0.82rem;
             font-weight: 700;
@@ -272,11 +272,11 @@ def inject_global_styles():
 
         .st-key-custom_remove_suggested
         button:hover {
-            background: #fff3d6 !important;
+            background: #ffedd5 !important;
 
-            border-color: #f59e0b !important;
+            border-color: #f97316 !important;
 
-            color: #7a4b00 !important;
+            color: #9a3412 !important;
         }
 
 
@@ -346,29 +346,29 @@ def inject_global_styles():
         }
 
         .stButton > button[kind="primary"] {
-            background: #f59e0b !important;
-            border-color: #f59e0b !important;
+            background: #f97316 !important;
+            border-color: #f97316 !important;
 
             color: #171717 !important;
         }
 
         .stButton > button[kind="primary"]:hover {
-            background: #e89008 !important;
-            border-color: #e89008 !important;
+            background: #ea580c !important;
+            border-color: #ea580c !important;
 
             color: #171717 !important;
 
             box-shadow:
                 0 8px 20px
-                rgba(245, 158, 11, 0.16);
+                rgba(249, 115, 22, 0.18);
         }
 
         .stButton > button[kind="primary"]:focus {
-            border-color: #f59e0b !important;
+            border-color: #f97316 !important;
 
             box-shadow:
                 0 0 0 3px
-                rgba(245, 158, 11, 0.18);
+                rgba(249, 115, 22, 0.18);
         }
 
 
@@ -395,7 +395,54 @@ def inject_global_styles():
 
 
         /* =========================================================
-           FOOTER
+           APP FOOTER
+        ========================================================= */
+
+        .st-key-app_footer {
+            margin-top: 3rem;
+            padding-bottom: 0.5rem;
+        }
+
+        .st-key-app_footer hr {
+            margin-bottom: 1.3rem;
+        }
+
+        .st-key-app_footer
+        div[data-testid="stCaptionContainer"] {
+            color: #8b8680;
+
+            font-size: 0.78rem;
+            line-height: 1.5;
+        }
+
+        .st-key-app_footer
+        div[data-testid="stHorizontalBlock"]:first-of-type
+        div[data-testid="stCaptionContainer"] {
+            color: #292524;
+
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+        }
+
+        .st-key-app_footer
+        div[data-testid="stHorizontalBlock"]:first-of-type
+        div[data-testid="stColumn"]:last-child
+        div[data-testid="stCaptionContainer"] {
+            color: #f97316;
+            text-align: right;
+        }
+
+        .st-key-app_footer
+        div[data-testid="stHorizontalBlock"]:last-of-type
+        div[data-testid="stColumn"]:last-child
+        div[data-testid="stCaptionContainer"] {
+            text-align: right;
+        }
+
+
+        /* =========================================================
+           HIDE STREAMLIT FOOTER
         ========================================================= */
 
         footer {
@@ -436,6 +483,23 @@ def inject_global_styles():
             .st-key-feature_review_panel
             div[data-testid="stHorizontalBlock"] {
                 gap: 0.25rem;
+            }
+
+
+            /* Footer mobile layout */
+
+            .st-key-app_footer {
+                margin-top: 2.5rem;
+            }
+
+            .st-key-app_footer
+            div[data-testid="stHorizontalBlock"] {
+                gap: 0.25rem;
+            }
+
+            .st-key-app_footer
+            div[data-testid="stCaptionContainer"] {
+                font-size: 0.72rem;
             }
         }
 
